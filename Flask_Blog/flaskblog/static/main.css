@@ -83,3 +83,23 @@ a.article-title:hover {
     float: right;
     margin-right: 41em;
 }
+
+
+/* FIX PRA IMAGEM FICAR DO JEITO CERTO*/
+
+.media {
+  display: flex;
+  align-items: center; 
+}
+
+.account-img {
+  height: 125px; 
+  width: 125px; 
+  margin-right: 20px; 
+  object-fit: cover; 
+}
+
+.media-body {
+  
+  flex: 1; 
+}
