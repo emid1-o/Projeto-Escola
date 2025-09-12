@@ -2,7 +2,7 @@ import os
 import secrets
 from PIL import Image
 from flaskblog import app, db, bcrypt
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
@@ -10,12 +10,12 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 def home():
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.date_posted.desc()).all()
     return render_template('home.html', posts=posts)
 
 @app.route("/about")
 def about_page():
-    return render_template('about.html', title = 'About')
+    return render_template('about.html', title = 'Sobre')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -27,10 +27,10 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash(f'Your account has been created, you are noew able to log in', 'success')
+        flash(f'Conta criada com sucesso!', 'success')
         return redirect(url_for('login'))
 
-    return render_template('register.html', title = 'Register', form=form)
+    return render_template('register.html', title = 'Registrar', form=form)
 
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
@@ -44,7 +44,7 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
-            flash('Login unsuccessful. Please check your email and password', 'danger')
+            flash('Algo deu errado, cheque o email ou a senha', 'danger')
     return render_template('login.html', title = 'Login', form=form)
 
 
@@ -103,7 +103,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     image_file = url_for('static', filename = 'profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account', image_file = image_file, form = form)
+    return render_template('account.html', title='Conta', image_file = image_file, form = form)
 
 
 @app.route("/post/new", methods=['GET', 'POST'])
@@ -124,4 +124,51 @@ def new_post():
         db.session.commit()
         flash('Sua postagem foi criada!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title='New Post', form=form)
+    return render_template('create_post.html', title='Nova Postagem',
+                            form=form, legend = 'Nova Postagem')
+
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title = post.title, post = post)
+
+
+@app.route("/post/<int:post_id>/update", methods = ['POST', 'GET'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+
+        if form.picture.data:
+            # Salva a nova imagem e pega o nome do arquivo
+            picture_file = save_post_picture(form.picture.data)
+            # Atualiza o campo no banco de dados
+            post.image_file = picture_file
+
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Sua postagem foi atualizada!', 'success')
+        return redirect(url_for('post', post_id = post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title='Atualizar Postagem', 
+                           form=form, legend = 'Atualizar Postagem')
+
+
+
+@app.route("/post/<int:post_id>/delete", methods = ['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Sua postagem foi deletada", 'success')
+    return redirect(url_for('home'))

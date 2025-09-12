@@ -5,7 +5,7 @@
     <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <fieldset class="form_group">
-            <legend class="border-bottom mb-4">Nova Postagem</legend>
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
 
             <div class="mb-3">
                 {{ form.title.label(class = "form-control-label") }}
