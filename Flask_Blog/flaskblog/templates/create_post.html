@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="content-section">
-    <form method="POST" action="">
+    <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <fieldset class="form_group">
             <legend class="border-bottom mb-4">Nova Postagem</legend>
@@ -36,6 +36,19 @@
                 {{ form.content(class = "form-control form-control-lg") }}
                 {% endif %}
             </div>
+
+            <div class="mb-3">
+                {{ form.picture.label(class="form-label") }}
+                {{ form.picture(class="form-control") }}
+                {% if form.picture.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.picture.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
         </fieldset>
         <br>
         <div class="mb-3">

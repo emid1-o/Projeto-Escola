@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -15,6 +16,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
+migrate = Migrate(app, db)
 
 
 

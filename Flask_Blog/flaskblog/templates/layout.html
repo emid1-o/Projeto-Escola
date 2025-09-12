@@ -27,7 +27,7 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-                <a class="navbar-brand mr-4" href="/">Flask Blog</a>
+                <a class="navbar-brand mr-4" href="/">Sistema</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                     aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@
                 <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{{url_for('home')}}">Inicio</a>
-                        <a class="nav-item nav-link" href="{{url_for('about_page')}}">About</a>
+                        <a class="nav-item nav-link" href="{{url_for('about_page')}}">Sobre</a>
                     </div>
                     <div class="navbar-nav">
                         {% if current_user.is_authenticated %}

@@ -68,6 +68,20 @@ def save_picture(form_picture):
 
     return picture_fn
 
+def save_post_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/post_pics', picture_fn)
+
+    
+    output_size = (600, 600) 
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
+
 
 @app.route("/account", methods = ['GET', 'POST'])
 @login_required
@@ -92,14 +106,22 @@ def account():
     return render_template('account.html', title='Account', image_file = image_file, form = form)
 
 
-@app.route("/post/new", methods = ['GET', 'POST'])
+@app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content = form.content.data, author = current_user)
+        post_image = None
+        if form.picture.data:
+            picture_file = save_post_picture(form.picture.data)
+            post_image = picture_file
+
+        post = Post(title=form.title.data, 
+                    content=form.content.data, 
+                    author=current_user,
+                    image_file=post_image) 
         db.session.add(post)
         db.session.commit()
         flash('Sua postagem foi criada!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title='New Post', form = form)
+    return render_template('create_post.html', title='New Post', form=form)
