@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, file_allowed
+from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -47,7 +47,7 @@ class UpdateAccountForm(FlaskForm):
 
     email = StringField('Email', validators= [DataRequired(), Email()])
 
-    picture = FileField('Atualizar foto de perfil', validators=[file_allowed(['jpg', 'png', 'webp'])])
+    picture = FileField('Atualizar foto de perfil', validators=[FileAllowed(['jpg', 'png', 'webp'])])
 
     submit = SubmitField('Atualizar')
 
@@ -70,5 +70,24 @@ class PostForm(FlaskForm):
     title = StringField('Título', validators=[DataRequired()])
     content = TextAreaField('Conteúdo', validators=[DataRequired()])
     submit = SubmitField('Postar')
-    picture = FileField('Postar Imagem', validators=[file_allowed(['jpg', 'png', 'jpeg'])])
+    picture = FileField('Postar Imagem', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+
+
+class ResquestResetForm(FlaskForm):
+    email = StringField('Email', validators= [DataRequired(), Email()])
+    submit = SubmitField('Mudar senha')
+
+    def validate_email(self, email):
+
+        user = User.query.filter_by(email=email.data).first()
+
+        if user is None:
+            raise ValidationError('Não há nenhuma conta registrada com esse email.')
+        
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Senha', validators= [DataRequired()])
+    confirm_password = PasswordField('Confirmar senha', validators= [DataRequired(), EqualTo('password')])
+    submit = SubmitField('Resetar senha')
 

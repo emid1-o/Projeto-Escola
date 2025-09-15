@@ -4,8 +4,13 @@ import os
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_mail import Mail
+from dotenv import load_dotenv
+load_dotenv()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+
 
 
 app = Flask(__name__)
@@ -16,8 +21,22 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
+app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+mail = Mail(app)
 
 migrate = Migrate(app, db)
+
+#CONFIGURAÇÃO DO FLASK-MAIL
+MAIL_USERNAME = os.environ.get('EMAIL_USER')
+MAIL_PASSWORD = os.environ.get('EMAIL_PASS')
+
+# --- ADICIONE ESTAS DUAS LINHAS PARA DEBUG ---
+print(f"DEBUG: E-mail que o app está lendo: {MAIL_USERNAME}")
+print(f"DEBUG: Senha que o app está lendo: {'Sim, a senha foi carregada' if MAIL_PASSWORD else 'NÃO, a senha está vazia (None)'}")
 
 
 
