@@ -1,6 +1,6 @@
-from flask import (Blueprint, request, redirect, flash, url_for, render_template)
+from flask import (Blueprint, request, redirect, flash, url_for, render_template, current_app)
 from flask_login import current_user, login_required, logout_user, login_user
-from siteMain import db, bcrypt, app
+from siteMain import db, bcrypt
 from siteMain.models import Post, User
 from siteMain.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ResquestResetForm, ResetPasswordForm)
 from siteMain.users.utils import save_picture, send_reset_email
@@ -58,7 +58,7 @@ def account():
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
             if old_pic != 'default.jpg':
-                os.remove(os.path.join(app.root_path, 'static/profile_pics', old_pic))
+                os.remove(os.path.join(current_app.root_path, 'static/profile_pics', old_pic))
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
