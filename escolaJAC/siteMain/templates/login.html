@@ -44,16 +44,16 @@
         </fieldset>
         <br>
         <div class="mb-3">
-            {{ form.submit(class="btn btn-outline-info") }}
+            {{ form.submit(class="btn btn-outline-success") }}
         </div>
         <small class="text-muted ml-2">
-            <a href="{{ url_for('reset_request') }}">Esqueceu a senha?</a>
+            <a href="{{ url_for('users.reset_request') }}">Esqueceu a senha?</a>
         </small>
     </form>
 </div>
 <div class="border-top pr-3">
     <small class="text-muted">
-        Criar nova conta? <a class="ml-2" href="{{ url_for('register') }}">Registre-se</a>
+        Criar nova conta? <a class="ml-2" href="{{ url_for('users.register') }}">Registre-se</a>
     </small>
 </div>
 

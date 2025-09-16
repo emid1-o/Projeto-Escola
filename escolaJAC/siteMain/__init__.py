@@ -19,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'si
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
@@ -30,16 +30,18 @@ mail = Mail(app)
 
 migrate = Migrate(app, db)
 
-#CONFIGURAÇÃO DO FLASK-MAIL
 MAIL_USERNAME = os.environ.get('EMAIL_USER')
 MAIL_PASSWORD = os.environ.get('EMAIL_PASS')
 
-# --- ADICIONE ESTAS DUAS LINHAS PARA DEBUG ---
-print(f"DEBUG: E-mail que o app está lendo: {MAIL_USERNAME}")
-print(f"DEBUG: Senha que o app está lendo: {'Sim, a senha foi carregada' if MAIL_PASSWORD else 'NÃO, a senha está vazia (None)'}")
 
 
 
 
 
-from siteMain import routes
+from siteMain.users.routes import users
+from siteMain.posts.routes import posts
+from siteMain.main.routes import main
+
+app.register_blueprint(users)
+app.register_blueprint(posts)
+app.register_blueprint(main)

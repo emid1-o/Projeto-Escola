@@ -27,24 +27,24 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-                <a class="navbar-brand mr-4" href="{{ url_for('home') }}">Início</a>
+                <a class="navbar-brand mr-4" href="{{ url_for('main.home') }}">Início</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                     aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{{url_for('home')}}"></a>
-                        <a class="nav-item nav-link" href="{{url_for('about_page')}}">Sobre</a>
+                        <a class="nav-item nav-link" href="{{url_for('main.home')}}"></a>
+                        <a class="nav-item nav-link" href="{{url_for('main.about_page')}}">Sobre</a>
                     </div>
                     <div class="navbar-nav">
                         {% if current_user.is_authenticated %}
-                            <a class="nav-item nav-link" href="{{url_for('new_post')}}">Nova Publicação</a>
-                            <a class="nav-item nav-link" href="{{url_for('account')}}">Conta</a>
-                            <a class="nav-item nav-link" href="{{url_for('logout')}}">Sair</a>
+                            <a class="nav-item nav-link" href="{{url_for('posts.new_post')}}">Nova Publicação</a>
+                            <a class="nav-item nav-link" href="{{url_for('users.account')}}">Conta</a>
+                            <a class="nav-item nav-link" href="{{url_for('users.logout')}}">Sair</a>
                         {% else %}
-                            <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
-                            <a class="nav-item nav-link" href="{{url_for('register')}}">Registrar</a>
+                            <a class="nav-item nav-link" href="{{url_for('users.login')}}">Login</a>
+                            <a class="nav-item nav-link" href="{{url_for('users.register')}}">Registrar</a>
                         {% endif %}
                     </div>
                 </div>

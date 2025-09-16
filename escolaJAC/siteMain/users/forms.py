@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from siteMain.models import User
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Nome de usuário', validators= [DataRequired(), Length(min=2, max=20)])
@@ -66,12 +67,6 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('Email já registrado')
             
 
-class PostForm(FlaskForm):
-    title = StringField('Título', validators=[DataRequired()])
-    content = TextAreaField('Conteúdo', validators=[DataRequired()])
-    submit = SubmitField('Postar')
-    picture = FileField('Postar Imagem', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
-
 
 class ResquestResetForm(FlaskForm):
     email = StringField('Email', validators= [DataRequired(), Email()])
@@ -90,4 +85,3 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Senha', validators= [DataRequired()])
     confirm_password = PasswordField('Confirmar senha', validators= [DataRequired(), EqualTo('password')])
     submit = SubmitField('Resetar senha')
-
