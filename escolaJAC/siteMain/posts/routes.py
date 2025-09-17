@@ -1,4 +1,4 @@
-from flask import (Blueprint, abort, request, redirect, flash, url_for, render_template)
+from flask import (Blueprint, abort, request, redirect, flash, url_for, render_template, current_app)
 from flask_login import current_user, login_required
 from siteMain import db
 from siteMain.models import Post
@@ -82,7 +82,7 @@ def save_post_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/post_pics', picture_fn)
+    picture_path = os.path.join(current_app.root_path, 'static/post_pics', picture_fn)
 
     
     output_size = (600, 600) 

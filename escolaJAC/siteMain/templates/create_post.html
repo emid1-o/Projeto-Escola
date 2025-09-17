@@ -1,60 +1,51 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <div class="content-section">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-        <fieldset class="form_group">
+        <fieldset>
             <legend class="border-bottom mb-4">{{ legend }}</legend>
-
             <div class="mb-3">
-                {{ form.title.label(class = "form-control-label") }}
-
+                {{ form.title.label(class="form-label") }}
                 {% if form.title.errors %}
-                {{ form.title(class = "form-control form-control-lg is-invalid") }}
+                {{ form.title(class="form-control form-control-lg is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.title.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
-                {{ form.title(class = "form-control form-control-lg") }}
+                {{ form.title(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-
             <div class="mb-3">
-                {{ form.content.label(class = "form-control-label") }}
-
+                {{ form.content.label(class="form-label") }}
                 {% if form.content.errors %}
-                {{ form.content(class = "form-control form-control-lg is-invalid") }}
+                {{ form.content(class="form-control form-control-lg is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.content.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
-                {{ form.content(class = "form-control form-control-lg") }}
+                {{ form.content(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-
             <div class="mb-3">
                 {{ form.picture.label(class="form-label") }}
                 {{ form.picture(class="form-control") }}
                 {% if form.picture.errors %}
-                    <div class="invalid-feedback d-block">
-                        {% for error in form.picture.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
+                <div class="invalid-feedback d-block">
+                    {% for error in form.picture.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
                 {% endif %}
             </div>
-            
         </fieldset>
-        <br>
-        <div class="mb-3">
-            {{ form.submit(class="btn btn-outline-info") }}
+        <div class="mt-4">
+            {{ form.submit(class="btn btn-main") }}
         </div>
     </form>
 </div>
-
 {% endblock content %}
