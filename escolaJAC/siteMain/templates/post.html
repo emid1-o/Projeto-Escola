@@ -1,40 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<article class="media content-section align-items-start">
+<article class="media content-section">
     <img class="rounded-circle article-img"
-        src="{{ url_for('static', filename = 'profile_pics/') + post.author.image_file }}" alt="">
+        src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
     <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="{{ url_for('users.user_posts', username = post.author.username) }}">{{ post.author.username }}</a>
-            <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
-            {% if post.author == current_user %}
+        <div class="article-metadata d-flex justify-content-between align-items-center flex-wrap">
             <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id = post.id) }}">Atualizar</a>
-                <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal"
+                <a class="me-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+            </div>
+            {% if post.author == current_user %}
+            <div class="mt-2 mt-md-0">
+                <a class="btn btn-info btn-sm" href="{{ url_for('posts.update_post', post_id=post.id) }}">Atualizar</a>
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                     data-bs-target="#deleteModal">Deletar</button>
             </div>
             {% endif %}
         </div>
-        <h2 class="article-title">{{ post.title }}</h2>
+        <h1 class="article-title mt-3">{{ post.title }}</h1>
 
         {% if post.image_file %}
-        <img class="img-fluid rounded mt-3 mb-3" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}">
+        <img class="img-fluid rounded-3 my-3" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}">
         {% endif %}
 
         <p class="article-content">{{ post.content }}</p>
     </div>
 </article>
+
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Apagar publicação?</h5>
-                
+                <h5 class="modal-title" id="deleteModalLabel">Apagar Publicação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Você tem certeza que deseja apagar esta publicação? Esta ação não pode ser desfeita.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <form action="{{ url_for('posts.delete_post', post_id = post.id) }}" method="POST">
+                <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
                     <input class="btn btn-danger" type="submit" value="Apagar">
                 </form>
             </div>
