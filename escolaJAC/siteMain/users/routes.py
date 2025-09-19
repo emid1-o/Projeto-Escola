@@ -17,6 +17,11 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        secret_key = os.getenv('REGISTRATION_KEY')
+        if form.registration_key.data != secret_key:
+            flash("Chave de registro inválida!", 'danger')
+            return redirect(url_for('users.register'))
+
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)

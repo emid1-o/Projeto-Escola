@@ -61,6 +61,20 @@
                 {{ form.confirm_password(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
+            <div class="mb-3">
+                {{ form.registration_key.label(class="form-label") }}
+                {% if form.registration_key.errors %}
+                {{ form.registration_key(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.registration_key.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.registration_key(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
         </fieldset>
         
         <div class="mt-4 mb-3">
