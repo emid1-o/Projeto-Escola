@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, logout_user, login_user
 from siteMain import db, bcrypt
 from siteMain.models import Post, User
 from siteMain.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ResquestResetForm, ResetPasswordForm)
-from siteMain.users.utils import save_picture, send_reset_email
+from siteMain.users.utils import save_profile_picture, send_reset_email
 import os
 
 
@@ -11,25 +11,27 @@ import os
 users = Blueprint('users', __name__)
 
 
-@users.route("/register", methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
+@users.route("/account", methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
     if form.validate_on_submit():
-        secret_key = os.getenv('REGISTRATION_KEY')
-        if form.registration_key.data != secret_key:
-            flash("Chave de registro inválida!", 'danger')
-            return redirect(url_for('users.register'))
-
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
+        if form.picture.data:
+            picture_url = save_profile_picture(form.picture.data)
+            current_user.image_file = picture_url
+        
+        current_user.username = form.username.data
+        current_user.email = form.email.data
         db.session.commit()
-        flash(f'Conta criada com sucesso!', 'success')
-        return redirect(url_for('users.login'))
-
-    return render_template('register.html', title = 'Registrar', form=form)
+        flash("Sua conta foi atualizada com sucesso!", 'success')
+        return redirect(url_for('users.account'))
+    
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    
+    return render_template('account.html', title='Conta', 
+                           image_file=current_user.image_file, form=form)
 
 @users.route("/login", methods = ['GET', 'POST'])
 def login():
