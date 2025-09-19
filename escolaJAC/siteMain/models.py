@@ -40,7 +40,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable = False)
     date_posted = db.Column(db.DateTime, nullable = False, default = datetime.now)
     content = db.Column(db.Text, nullable = False)
-    image_file = db.Column(db.String(20), nullable=True) 
+    image_file = db.Column(db.String(200), nullable=True) 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     is_pinned = db.Column(db.Boolean, nullable = False, default = False)
