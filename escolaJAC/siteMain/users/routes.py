@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, logout_user, login_user
 from siteMain import db, bcrypt
 from siteMain.models import Post, User
 from siteMain.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ResquestResetForm, ResetPasswordForm)
-from siteMain.users.utils import save_picture, send_reset_email
+from siteMain.users.utils import save_profile_picture, send_reset_email
 import os
 
 
@@ -60,7 +60,7 @@ def account():
     if form.validate_on_submit():
         if form.picture.data:
             old_pic = current_user.image_file
-            picture_file = save_picture(form.picture.data)
+            picture_file = save_profile_picture(form.picture.data)
             current_user.image_file = picture_file
             if old_pic != 'default.jpg':
                 os.remove(os.path.join(current_app.root_path, 'static/profile_pics', old_pic))
