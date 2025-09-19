@@ -28,6 +28,17 @@ def create_app(config_class = Config):
     app = Flask(__name__)
     app.config.from_object(Config)
 
+
+    @app.context_processor
+    def inject_pinned_posts():
+        
+        try:
+            pinned_posts = Post.query.filter_by(is_pinned=True).order_by(Post.date_posted.desc()).limit(5).all()
+            return dict(pinned_posts=pinned_posts)
+        except:
+            return dict(pinned_posts=[])
+
+
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -39,6 +50,7 @@ def create_app(config_class = Config):
     from siteMain.posts.routes import posts
     from siteMain.main.routes import main
     from siteMain.errors.handlers import errors
+    from siteMain.models import Post
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)

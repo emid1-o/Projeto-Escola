@@ -23,7 +23,8 @@ def new_post():
         post = Post(title=form.title.data, 
                     content=form.content.data, 
                     author=current_user,
-                    image_file=post_image) 
+                    image_file=post_image,
+                    is_pinned=form.is_pinned.data) 
         db.session.add(post)
         db.session.commit()
         flash('Sua postagem foi criada!', 'success')
@@ -55,12 +56,14 @@ def update_post(post_id):
 
         post.title = form.title.data
         post.content = form.content.data
+        post.is_pinned = form.is_pinned.data
         db.session.commit()
         flash('Sua postagem foi atualizada!', 'success')
         return redirect(url_for('posts.post', post_id = post.id))
     elif request.method == 'GET':
         form.title.data = post.title
         form.content.data = post.content
+        form.is_pinned.data = post.is_pinned
     return render_template('create_post.html', title='Atualizar Postagem', 
                            form=form, legend = 'Atualizar Postagem')
 

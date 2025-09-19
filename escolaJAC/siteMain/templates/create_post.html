@@ -42,6 +42,10 @@
                 </div>
                 {% endif %}
             </div>
+            <div class="mb-3 form-check">
+                {{ form.is_pinned(class="form-check-input") }}
+                {{ form.is_pinned.label(class="form-check-label") }}
+            </div>
         </fieldset>
         <div class="mt-4">
             {{ form.submit(class="btn btn-main") }}
