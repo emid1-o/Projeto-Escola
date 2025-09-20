@@ -1,1 +1,1 @@
-Ativida prática interdisciplinar para uma escola usando Flask
+Atividade prática interdisciplinar para uma escola usando Flask
