@@ -1,10 +1,11 @@
+from urllib.parse import unquote
+from sqlalchemy import func
 from flask import (Blueprint, request, redirect, flash, url_for, render_template, current_app)
 from flask_login import current_user, login_required, logout_user, login_user
 from siteMain import db, bcrypt
 from siteMain.models import Post, User
 from siteMain.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ResquestResetForm, ResetPasswordForm)
 from siteMain.users.utils import save_profile_picture, send_reset_email
-from sqlalchemy import func
 import os
 
 
@@ -81,11 +82,11 @@ def account():
 @users.route("/user/<string:username>")
 def user_posts(username):
 
-    current_app.logger.warning(f"DIAGNÓSTICO USUÁRIO: A função recebeu o username: '{username}'")
-    current_app.logger.warning(f"DIAGNÓSTICO (repr): {repr(username)}") # Mostra caracteres 'invisíveis'
+    username_decoded = unquote(username)
+
 
     page = request.args.get('page', 1, type=int)
-    user = User.query.filter(func.trim(User.username)==func.trim(username)).first_or_404()
+    user = User.query.filter(func.trim(User.username)==func.trim(username_decoded)).first_or_404()
     posts = Post.query.filter_by(author = user)\
         .order_by(Post.date_posted.desc())\
         .paginate(page = page, per_page=8)
