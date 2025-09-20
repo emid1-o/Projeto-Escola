@@ -1,6 +1,6 @@
 #  Portal Escolar com Flask
 
-> Um portal web completo e moderno construído com Flask para gestão de anúncios e comunicação em um ambiente escolar, com deploy na Vercel.
+> Um portal web completo e moderno construído com Flask para gestão de anúncios e comunicação em um ambiente escolar.
 
 Este projeto foi desenvolvido como uma solução robusta para comunicação interna, permitindo a criação de posts, gestão de usuários e exibição de anúncios fixos, com uma arquitetura serverless pronta para produção.
 
@@ -18,8 +18,6 @@ Este projeto foi desenvolvido como uma solução robusta para comunicação inte
 * [Sobre o Projeto](#-sobre-o-projeto)
 * [Funcionalidades](#-funcionalidades)
 * [Stack de Tecnologia](#-stack-de-tecnologia)
-* [Como Rodar Localmente](#-como-rodar-localmente)
-* [Configuração](#-configuração)
 * [Agradecimentos](#-agradecimentos)
 
 ---
@@ -45,7 +43,7 @@ O projeto foi construído do zero usando Python e o microframework Flask, e foi 
 
 ---
 
-## 🛠️ Stack do Projeto
+## 🛠️ Stack de Tecnologia
 
 
 #### 🎨 **Frontend:**
