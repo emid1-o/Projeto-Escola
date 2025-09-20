@@ -1,10 +1,10 @@
-from flask import (Blueprint, request, redirect, flash, url_for, render_template)
-from sqlalchemy import func
+from flask import (Blueprint, request, redirect, flash, url_for, render_template, current_app)
 from flask_login import current_user, login_required, logout_user, login_user
 from siteMain import db, bcrypt
 from siteMain.models import Post, User
 from siteMain.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, ResquestResetForm, ResetPasswordForm)
 from siteMain.users.utils import save_profile_picture, send_reset_email
+from sqlalchemy import func
 import os
 
 
@@ -24,7 +24,8 @@ def register():
             return redirect(url_for('users.register'))
 
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        clean_username = form.username.data.strip()
+        user = User(username=clean_username, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Conta criada com sucesso!', 'success')
@@ -64,7 +65,7 @@ def account():
             picture_file = save_profile_picture(form.picture.data)
             current_user.image_file = picture_file
             
-        current_user.username = form.username.data
+        current_user.username = form.username.data.strip()
         current_user.email = form.email.data
         db.session.commit()
         flash("Sua conta foi atualizada!", 'success')
@@ -80,7 +81,7 @@ def account():
 @users.route("/user/<string:username>")
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
-    user = User.query.filter(func.trim(User.username) == func.trim(username)).first_or_404()
+    user = User.query.filter(func.trim(User.username)==func.trim(username)).first_or_404()
     posts = Post.query.filter_by(author = user)\
         .order_by(Post.date_posted.desc())\
         .paginate(page = page, per_page=8)
