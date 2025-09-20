@@ -17,7 +17,7 @@ Este projeto foi desenvolvido como uma solução robusta para comunicação inte
 
 * [Sobre o Projeto](#-sobre-o-projeto)
 * [Funcionalidades](#-funcionalidades)
-* [Stack de Tecnologia](#-stack-de-tecnologia)
+* [Stack de Tecnologia](#stack-de-tecnologia)
 * [Agradecimentos](#-agradecimentos)
 
 ---
@@ -43,7 +43,7 @@ O projeto foi construído do zero usando Python e o microframework Flask, e foi 
 
 ---
 
-## 🛠️ Stack de Tecnologia
+## 🔧 Stack de Tecnologia
 
 
 #### 🎨 **Frontend:**
