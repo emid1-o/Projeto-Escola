@@ -30,7 +30,7 @@ O projeto foi construído do zero usando Python e o microframework Flask, e foi 
 
 ---
 
-## ✨ Funcionalidades
+## ⚡ Funcionalidades
 
 * ✅ **Sistema de Autenticação Completo:** Registro, Login e Logout.
 * 🔑 **Registro Seguro por Chave Única:** Apenas usuários com uma chave secreta podem se registrar.
@@ -78,7 +78,7 @@ O projeto foi construído do zero usando Python e o microframework Flask, e foi 
 
 
 
-## 🙏 Agradecimentos
+## 🖤 Agradecimentos
 
 Este projeto é o resultado de um esforço colaborativo e não teria sido possível sem a dedicação e contribuição dos seguintes membros da equipe:
 
