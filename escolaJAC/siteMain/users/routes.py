@@ -1,4 +1,5 @@
-from flask import (Blueprint, request, redirect, flash, url_for, render_template, current_app)
+from flask import (Blueprint, request, redirect, flash, url_for, render_template)
+from sqlalchemy import func
 from flask_login import current_user, login_required, logout_user, login_user
 from siteMain import db, bcrypt
 from siteMain.models import Post, User
@@ -79,7 +80,7 @@ def account():
 @users.route("/user/<string:username>")
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
-    user = User.query.filter_by(username=username).first_or_404()
+    user = User.query.filter(func.trim(User.username) == func.trim(username)).first_or_404()
     posts = Post.query.filter_by(author = user)\
         .order_by(Post.date_posted.desc())\
         .paginate(page = page, per_page=8)
