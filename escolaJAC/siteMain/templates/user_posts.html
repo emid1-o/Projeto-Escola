@@ -4,7 +4,7 @@
 <h1 class="mb-3">Publicações de {{ user.username }} ({{ posts.total }})</h1>
 {% for post in posts.items %}
 <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+    <img class="rounded-circle article-img" src="{{ post.author.image_file }}">
     <div class="media-body">
         <div class="article-metadata">
             <a class="me-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
@@ -13,7 +13,7 @@
         <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
 
         {% if post.image_file %}
-        <img class="img-fluid rounded-3 my-3" src="{{ url_for('static', filename='post_pics/' + post.image_file) }}">
+        <img class="img-fluid rounded-3 my-3" src="{{ post.image_file }}">
         {% endif %}
 
         <p class="article-content">{{ post.content }}</p>
